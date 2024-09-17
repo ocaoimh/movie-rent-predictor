@@ -12,10 +12,9 @@ SELECT MIN(DISTINCT(rental_date)), MAX(DISTINCT(rental_date)) FROM rental;
 -- Next, we count the number of times a movie has been rented during this period.
 SELECT I.film_id, COUNT(*) AS n_rentals
 FROM rental AS R
-	LEFT JOIN inventory AS I USING (inventory_id)
+	JOIN inventory AS I USING (inventory_id)
 WHERE R.rental_date BETWEEN '2005-05-01' AND '2006-03-01'
 GROUP BY I.film_id;
-
 
 ############################################
 -- Later in Python, we will create our target variable movie_demand where 1 if > n_rentals average else 0.
@@ -46,7 +45,7 @@ CREATE TABLE logistic_data AS
 WITH rental_counts AS 
 	(SELECT I.film_id, COUNT(*) AS n_rentals
     FROM rental AS R
-		LEFT JOIN inventory AS I USING (inventory_id)
+		JOIN inventory AS I USING (inventory_id)
     WHERE R.rental_date BETWEEN '2005-05-01' AND '2006-03-01'
     GROUP BY I.film_id)
 SELECT F.film_id, F.rental_duration, F.rental_rate, F.length, F.rating, F.special_features, C.name, RC.n_rentals
